@@ -1,7 +1,10 @@
 #include <iostream>
+
 using namespace std;
+
 void create();
 void gotoxy(int, int);
+
 class Peace // definicja typu obiektu pelniaca role klocka w tetrisie
 {
     string form;    // ksztalt
