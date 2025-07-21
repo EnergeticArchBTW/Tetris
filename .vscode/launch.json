@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Tetris",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/tetris.exe",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "build-tetris",
+      "externalConsole": true,
+      "MIMode": "gdb",
+      "miDebuggerPath": "D:/Program Files/CodeBlocks/MinGW/bin/gdb.exe"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+0 - czarny
+1 - niebieski
+2 - zielony
+3 - b喚kitny
+4 - czerwony
+5 - purpurowy
+6 - 鄴速y
+7 - bia造
+8 - szary
+9 - jasnoniebieski
+10 - jasnozielony
+11 - jasnob喚kitny
+12 - jasnoczerwony
+13 - jasnopurpurowy
+14 - jasno鄴速y
+15 - jaskrawobia造
