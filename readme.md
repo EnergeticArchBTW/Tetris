@@ -1,3 +1,5 @@
+![Image](https://github.com/user-attachments/assets/01b23a91-dbc8-481e-9b92-de2e1ce310d5)
+
 najpierw pobierz dla visual studio, GCC z tego poradnika:
 https://code.visualstudio.com/docs/cpp/config-mingw
 
