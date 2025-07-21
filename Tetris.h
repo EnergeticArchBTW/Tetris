@@ -5,7 +5,24 @@ void gotoxy(int, int);
 class Peace // definicja typu obiektu pelniaca role klocka w tetrisie
 {
     string form;    // ksztalt
-    short Color;    // zapisuje kolor klocka
+    /* zapisuje kolor klocka
+       0 - czarny
+       1 - niebieski
+       2 - zielony
+       3 - błękitny
+       4 - czerwony
+       5 - purpurowy
+       6 - żółty
+       7 - biały
+       8 - szary
+       9 - jasnoniebieski
+       10 - jasnozielony
+       11 - jasnobłękitny
+       12 - jasnoczerwony
+       13 - jasnopurpurowy
+       14 - jasnożółty
+       15 - jaskrawobiały */
+    short Color;
     int nr_form;    // wersja obiektu
     int fuse_y;     // ilosc czekania do przemieszczenia obiektu w dol (aktualna ilosc czekania)
     int fuse_count; // ile obiekt musi czekac co kazde spadniecie
