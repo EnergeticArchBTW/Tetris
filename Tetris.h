@@ -12,15 +12,41 @@ class Peace // definicja typu obiektu pelniaca role klocka w tetrisie
     int rotation;   // rotacja obiektu
     int x, y;       // kordynaty
 public:
+    /*zwraca index atrybutu form, który spełnia
+    podane współrzędne i uwzględnia dodatkowo
+    rotację obiektu. domyślnie, gdy nic nie znajdzie
+    zwraca -1
+    */
     int i(int, int, int) const;
+
+    //sprawdza, czy klocek nie dotknął gruntu
     bool on_ground();
-    void clear_frame(/*int &x,int &y,int &rotation,string &form*/);
-    bool fit(/*int &x,int &y,int &rotation,string &form*/ int, int);
+
+    // znikanie obiektu z konsoli
+    void clear_frame();
+
+    /* sprawdza, czy się zmieści na danym x i danej rotacji
+    podanych w argumentach */
+    bool fit(int, int);
+
+    //sprawdza, czy gra się skończyła
     bool game_over();
-    Peace() = delete; // usuwamy domyslny konstruktor
-    Peace(int = 40, int = 1, int = 0, int = 1, string = "                ", int = 5, short = 7);
+
+    // usuwamy domyslny konstruktor
+    Peace() = delete;
+
+    /* współrzędne x, y, wersja obiektu, jaka rotacja, fuse_count, kolor, form */
+    Peace(int = 40, int = 1, int = 0, int = 1, int = 5, short = 7, string = "                ");
+
+    // przed zniszczeniem obiektu...
     ~Peace();
+
+    //usuwa obiekt i go wirtualnie przemieszcza, ale nie pokazuje z powrotem
     void P_move();
+
+    // napisanie na ekran klocka
     void show() const;
+
+    // używanie Peace::show() w bardziej przystępny sposób
     friend ostream &operator<<(ostream &os, const Peace x);
 };

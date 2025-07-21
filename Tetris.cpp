@@ -2,9 +2,14 @@
 #include <windows.h>
 #include <conio.h>
 #include "Tetris.h"
+
 using namespace std;
-string tlo[25]; // zapisuje miedzy innymi spadniete klocki oraz ogolnie cala mape
+
+// zapisuje miedzy innymi spadniete klocki oraz ogolnie cala mape linia po linii
+string tlo[25];
+//jaki kolor ma każde miejsce na mapie
 short color[25][44];
+//ilość zdobytych punktów
 int punkty = 0;
 
 void changecol(int numofcol) // funkcja ktora upraszcza zmiane koloru czcionki w konsoli
@@ -14,6 +19,16 @@ void changecol(int numofcol) // funkcja ktora upraszcza zmiane koloru czcionki w
     SetConsoleTextAttribute(hwyj, numofcol);
 }
 
+//ustawia kursor na konkretnej współrzędnej w konsoli
+void gotoxy(int x, int y)
+{
+    COORD c;
+    c.X = x - 1;
+    c.Y = y - 1;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
+}
+
+//resetowanie globalnych zmiennych przed następną rozgrywką i rysowanie planszy
 void create()
 {
     system("cls");
@@ -35,26 +50,6 @@ void create()
     gotoxy(50, 4);
     cout << "Next:"; // pisze "Next:" nad obiektem, ktory bedzie nastepny
 }
-void gotoxy(int x, int y)
-{
-    COORD c;
-    c.X = x - 1;
-    c.Y = y - 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
-}
-
-void disapear(int x, int y) /// na razie ta funkcja jest niepotrzebna
-{
-    for (int yy = 0; yy < 4; yy++)
-    {
-        for (int xx = 0; xx < 4; xx++)
-        {
-            tlo[y + yy][x + xx] = ' ';
-            gotoxy(x + xx + 1, y + yy + 1);
-            cout << " ";
-        }
-    }
-}
 
 // konstruktory, destruktory, metody i funkcje zaprzyjaznione klasy Peace
 ostream &operator<<(ostream &os, const Peace x)
@@ -62,7 +57,8 @@ ostream &operator<<(ostream &os, const Peace x)
     x.show();
     return os;
 }
-Peace::Peace(int xx, int yy, int c_nr_form, int c_rotation, string c_form, int c_fuse_count, short c_color)
+
+Peace::Peace(int xx, int yy, int c_nr_form, int c_rotation, int c_fuse_count, short c_color, string c_form)
 {
     x = xx;
     y = yy;
@@ -71,7 +67,12 @@ Peace::Peace(int xx, int yy, int c_nr_form, int c_rotation, string c_form, int c
     rotation = c_rotation;
     fuse_y = 0;
     Color = c_color;
-    // ksztalty klockow do dyspozycji:
+    /*
+    ksztalty klockow do dyspozycji (max szerokość 4 max wysokość: 4):
+    np. [ ][ ][C][ ] (0-3)
+        [ ][ ][C][ ] (4-7)
+        [ ][ ][C][ ] (8-11)
+        [ ][ ][C][ ] (12-15)*/
     switch (c_nr_form)
     {
     case 1:
@@ -127,12 +128,12 @@ Peace::Peace(int xx, int yy, int c_nr_form, int c_rotation, string c_form, int c
     }
 }
 
-Peace::~Peace() // przed zniszczeniem obiektu...
+Peace::~Peace()
 {
     // licznik punktow
     if (x <= 40)
     {
-        for (int yy = 0; yy < 4; yy++) // za kazda literke upadnieta na ziemie: 100 pkt
+        for (int yy = 0; yy < 4; yy++) // za kazda literke upadnieta na ziemie: 10 pkt
         {
             for (int xx = 0; xx < 4; xx++)
             {
@@ -140,7 +141,7 @@ Peace::~Peace() // przed zniszczeniem obiektu...
                     punkty += 10;
             }
         }
-        for (int yy = 0; yy < 4; yy++) // za kazda literke upadnieta na inny spadniety obiekt: 10 pkt
+        for (int yy = 0; yy < 4; yy++) // za kazda literke upadnieta na inny spadniety obiekt: 1 pkt
         {
             for (int xx = 0; xx < 4; xx++)
             {
@@ -173,7 +174,7 @@ Peace::~Peace() // przed zniszczeniem obiektu...
                 if (tlo[y + yy][3 + xx] != ' ' && tlo[y + yy][3 + xx] != '#')
                     filled++;
             }
-            // jezeli cala linia jest wypelniona literkami...
+            // jezeli cala linia jest wypelniona literkami... dajemy 100 pkt
             if (filled == 38)
             {
                 /*bo kordynaty gotoxy sie liczy od jednego*/ gotoxy(4, y + yy + 1);
@@ -223,6 +224,8 @@ int Peace::i(int xx, int yy, int r) const
         return 15 - (yy * 4) - xx;
     case 4:
         return 3 - yy + (xx * 4);
+    default:
+        return -1;
     }
 }
 
@@ -290,9 +293,9 @@ bool Peace::fit(int xxx, int r)
         r = 1;
     if (r == 0)
         r = 4;
-    for (int yy = 0; yy < 4; yy++)
+    for (int yy = 0; yy < w; yy++)
     {
-        for (int xx = 0; xx < 4; xx++)
+        for (int xx = 0; xx < w; xx++)
         {
             if (form[i(xx, yy, r)] != ' ' && tlo[yy + y][xx + xxx] != ' ')
                 return false;

@@ -5,13 +5,16 @@
 #include <windows.h>
 #include "Tetris.h"
 using namespace std;
-int random_form=5, 
+//kształt
+int random_form=5,
+//szybkość spadania
 random_fall=8,
+//kolor
 random_color=15;
 extern int punkty;
 Peace *p1;
 //obiekt pokazujacy jaka forma bedzie nastepna
-Peace *p2 = new Peace(50,5,random_form,1,"                ",random_fall,random_color);
+Peace *p2 = new Peace(50,5,random_form,1,random_fall,random_color);
 void menu();
 
 int main()
@@ -24,7 +27,7 @@ int main()
         p2->clear_frame();
         delete p2;
         gotoxy(50,20); cout << "Punkty: " << punkty;
-        p1= new Peace(21,1,random_form,1,"                   ",random_fall,random_color);
+        p1= new Peace(21,1,random_form,1,random_fall,random_color);
     //losowanie ksztaltu
     random_form=rand()%16+1; //odpowiednia losowa liczbe otrzymujemy z wyciagniecia reszty tej liczby i dodania 1
     //losowanie szybkosci spadania
@@ -32,12 +35,12 @@ int main()
     //losowanie koloru
     random_color=rand()%7+8+1;
 
-    p2 = new Peace(50,5,random_form,1,"                ",random_fall,random_color);
+    p2 = new Peace(50,5,random_form,1,random_fall,random_color);
     p2->show();
       while(1)
       {
          if(p1->game_over()) {delete p1; delete p2; gotoxy(57,12); cout<<"Game Over !!!"; Sleep(10000);
-         menu(); delete p2; create(); p2 = new Peace(50,5,random_form,1,"                ",random_fall,random_color);
+         menu(); delete p2; create(); p2 = new Peace(50,5,random_form,1,random_fall,random_color);
          break;}
          p1->P_move();
          p1->show();
@@ -49,7 +52,10 @@ int main()
 
 void menu()
 {
+    //option to na jakiej opcji aktualnie jest wskaźnik
+    //a key przechowuje wartość o wciśniętym przycisku
     int option, key;
+    //czyszczenie zawartości całej konsoli
     system("cls");
     //pisanie tytulu gry
     gotoxy(35,3); cout<<"* TETRIS *";
